@@ -66,7 +66,7 @@ jobs:
           echo $MATRIX_JSON
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git pull origin develop
+          git pull origin ${GITHUB_HEAD_REF}
           readarray -t APP_PATHS_ARRAY < <(echo $MATRIX_JSON | jq -r '.app[]')
           for APP_PATH in "${APP_PATHS_ARRAY[@]}"; do
             echo "$APP_PATH"
@@ -74,7 +74,7 @@ jobs:
             touch $APP_PATH/reports/container-security-analysis/container-security-analysis-${{steps.timestamp.outputs.timestamp}}/README.md
             git add $APP_PATH/reports/container-security-analysis/container-security-analysis-${{steps.timestamp.outputs.timestamp}}
             git commit -m "Add timestamp directory for container security analysis ${{steps.timestamp.outputs.timestamp}} and json for images"
-            git push origin develop
+            git push origin ${GITHUB_HEAD_REF}
           done
       - name: Upload Image scan utility as an artifact
         uses: actions/upload-artifact@v4
@@ -93,7 +93,7 @@ jobs:
       - name: Checkout our repository
         uses: actions/checkout@v4
         with:
-          ref: develop
+          ref: ${GITHUB_HEAD_REF}
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
@@ -237,7 +237,7 @@ jobs:
       - name: Checkout our repository
         uses: actions/checkout@v4
         with:
-          ref: develop
+          ref: ${GITHUB_HEAD_REF}
       - name: Use Matrix
         run: |
           echo "Processing entry with imageName: ${{ matrix.imageName }} and path: ${{ matrix.path }}"
