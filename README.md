@@ -44,7 +44,7 @@ Look for TODO/IN Progress columns.
 ## Observability
 - **Signoz**: Open-source application performance monitoring tool that helps developers monitor their applications & troubleshoot problems. [Signoz](https://signoz.io/)
 
-## API Security
+## API and Cloud Native Network Security
 - **Ambassador**: Open-source Kubernetes-native API Gateway for microservices built on the Envoy Proxy. [Ambassador](https://www.getambassador.io/)
 - **Linkerd**: Ultralight service mesh for Kubernetes. Provides runtime debugging, observability, reliability, and security without requiring configuration. [Linkerd](https://linkerd.io/)
 - **Cert Manager**: Automatically manage and renew SSL/TLS certificates in Kubernetes. [Cert Manager](https://cert-manager.io/)
