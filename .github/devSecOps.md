@@ -102,29 +102,25 @@ Integrate Cosign to sign and verify artifacts, bolstering security protocols.
 ### Flow Diagram
 
 ```mermaid
-flowchart TD
-    start(Pull Request Closed on 'develop') --> check_if_merged{Check if Merged}
-    check_if_merged -- Yes --> dev_pr_merge[Dev PR Merge Job]
-    check_if_merged -- No --> end(End Process)
-    
+flowchart TB
+    trigger(Closed Pull Request on 'develop')
+    trigger --> dev_pr_merge[Dev PR Merge Job]
     dev_pr_merge --> checkout_repo{Checkout Repository}
-    checkout_repo --> configure_git(Configure Git)
-    configure_git --> release_please(Release Please Action)
-    release_please --> create_matrix(Create Matrix for Release)
-    
-    create_matrix --> release_matrix[Release Matrix Job]
+    checkout_repo --> configure_git[Configure Git]
+    configure_git --> release_please[Release Please]
+    release_please --> create_matrix_for_release[Create Matrix for Release]
+    create_matrix_for_release --> release_matrix[Release Matrix Job]
     release_matrix --> checkout_repo_release{Checkout Repository for Release}
-    checkout_repo_release --> install_helm(Install Helm)
-    install_helm --> configure_git_release(Configure Git for Release)
-    configure_git_release --> install_cosign(Install Cosign)
-    install_cosign --> install_yq(Install yq)
-    install_yq --> get_chart_info(Get Chart Name and Version)
-    get_chart_info --> read_json_config(Read JSON Config)
-    read_json_config --> add_dependencies(Add Dependencies)
-    add_dependencies --> helm_login(Helm | Login to GHCR)
-    helm_login --> package_helm_chart(Helm | Package Helm Chart)
-    package_helm_chart --> push_helm_chart(Helm | Push Helm Chart to GHCR)
-    push_helm_chart --> login_docker(Login to GitHub Container Registry)
-    login_docker --> sign_image(Cosign | Sign Image with Key)
-    sign_image --> end
+    checkout_repo_release --> install_helm[Install Helm]
+    install_helm --> configure_git_release[Configure Git for Release]
+    configure_git_release --> install_cosign[Install Cosign]
+    install_cosign --> install_yq[Install yq]
+    install_yq --> get_chart_name[Get Chart Name and Version]
+    get_chart_name --> read_json_config[Read JSON Config]
+    read_json_config --> add_dependencies[Add Dependencies]
+    add_dependencies --> helm_login[Login to GHCR]
+    helm_login --> package_helm_chart[ Package Helm Chart]
+    package_helm_chart --> push_helm_chart[ Push Helm Chart to GHCR]
+    push_helm_chart --> login_to_registry[Login to GitHub Container Registry]
+    login_to_registry --> sign_image[Cosign - Sign Image with Key]
 ```
