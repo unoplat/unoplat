@@ -1,4 +1,4 @@
 {
     "core/observability/unoplat-signoz/charts/signoz": "0.43.0",
-    "core/networkAndSecurity/unoplat-cert-manager/charts/cert-manager": "1.14.4"
+    "core/networkAndSecurity/unoplat-cert-manager/charts/cert-manager": "1.15.0"
 }
