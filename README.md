@@ -37,8 +37,6 @@ Look for TODO/IN Progress columns.
   - Filesystems
   - Git repositories (remote)
   - Kubernetes clusters or resources
-
-### Automated Container Management
 - **Copaceptic**: Automatically patch container images without depending on upstream sources. [Learn more](https://example.com/copaceptic)
 - **Cosign**: Tool for signing containers to ensure the integrity of data within the supply chain. [Cosign by Sigstore](https://github.com/sigstore/cosign)
 - **Pulumi**: Modern Infrastructure as Code using real languages. [Pulumi](https://www.pulumi.com/)
