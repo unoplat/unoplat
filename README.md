@@ -84,15 +84,15 @@ This guide details the user workflow on Unoplat, demonstrating step-by-step inte
 The workflow on Unoplat is designed to guide users through a series of intuitive steps, ensuring a smooth transition from setup to full-scale operation.
 
 ### Stage 1: Onboarding
-- **Cloud Kubernetes Cluster Onboarding**: Users begin their journey by onboarding onto a cloud Kubernetes cluster, preparing the environment for deploying modern applications.
+- **Cloud Kubernetes Cluster Onboarding**: Users begin their journey by onboarding onto cloud Kubernetes clusters (based on development,staging and production environments).
 - **GitHub Organization Registration**: Subsequently, users register their GitHub organization to integrate their existing workflows and repositories with Unoplat.
 
 ### Stage 2: Configuration
 - **Secrets Management**:
-  - **Creating Secrets**: Essential secrets such as certificates, private keys for Cosign, and `kubeconfig` files are created within the GitHub organization. This step ensures that all communications and operations are secured and authenticated.
+  - **Creating Secrets**: Essential secrets such as certificates, private keys for Cosign, and `kubeconfig` etc files are created within the GitHub organization. This step ensures that all communications and operations are secured and authenticated.
 - **Repository Setup**:
   - **Cloning the Core Repository**: Users clone the Unoplat core repository to their local environment to start the setup process.
-  - **Installing Unoplat PaaS**: The Platform as a Service (PaaS) component is installed on the Kubernetes cluster through a GitOps-driven approach. This method leverages version control to automate deployment and updates. This will ensure all compulsory core components of unoplat are installed/updated seamlessly.
+  - **Installing Unoplat PaaS**: The Platform as a Service (PaaS) component is installed on the Kubernetes cluster through a GitOps-driven approach. This method leverages version control to automate deployment and updates. This will ensure all  core components of unoplat are installed/updated seamlessly.
 
 ### Stage 3: Operation
 - **Application Deployment**:
