@@ -245,9 +245,9 @@ clickhouse:
       histogramQuantile:
         url: https://github.com/SigNoz/signoz/raw/develop/deploy/docker/clickhouse-setup/user_scripts/histogramQuantile
       image:
-        registry: docker.io
-        repository: alpine
-        tag: 3.18.2
+        registry: ghcr.io
+        repository: unoplat/unoplat/alpine
+        tag: 3.18.2-patched
         pullPolicy: IfNotPresent
     init:
       enabled: false
@@ -792,9 +792,9 @@ frontend:
   replicaCount: 1
 
   image:
-    registry: docker.io
-    repository: signoz/frontend
-    tag: 0.43.0
+    registry: ghcr.io
+    repository: unoplat/unoplat/frontend
+    tag: 0.43.0-patched
     pullPolicy: IfNotPresent
 
   # -- Image Registry Secret Names for Frontend
@@ -1247,9 +1247,9 @@ schemaMigrator:
   initContainers:
     wait:
       image:
-        registry: docker.io
-        repository: groundnuty/k8s-wait-for
-        tag: v2.0
+        registry: ghcr.io
+        repository: unoplat/unoplat/k8s-wait-for
+        tag: v2.0-patched
         pullPolicy: IfNotPresent
     init:
       enabled: true
