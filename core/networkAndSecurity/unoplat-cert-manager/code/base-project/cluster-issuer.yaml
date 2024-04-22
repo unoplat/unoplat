@@ -1,0 +1,7 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: unoplat-service-mesh-issuer
+spec:
+  ca:
+    secretName: unoplat-service-mesh-ca-secret
