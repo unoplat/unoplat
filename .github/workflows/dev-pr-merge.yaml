@@ -1,0 +1,146 @@
+name: Merge with develop branch
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+
+jobs:
+  dev-pr-merge:
+    if: github.event.pull_request.merged == true
+    permissions: write-all
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release_action_plan.outputs.releases_created }}
+      matrix: ${{ steps.create-matrix.outputs.matrix }}  
+    steps:
+    - name: Checkout our repository
+      uses: actions/checkout@v2
+      with:
+        ref: develop
+
+    - name: Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+    - name: Release Please
+      id: release_action_plan
+      uses: google-github-actions/release-please-action@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        config-file: .github/configuration/release-please-config.json
+        manifest-file: .github/configuration/release-please-manifest.json
+        include-component-in-tag: true
+        target-branch: develop
+        
+    - name: Create matrix for release    
+      id: create-matrix
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const allOutputs = ${{toJson(steps.release_action_plan.outputs)}};
+          console.log("all outputs",allOutputs);
+          const pathsReleased =  JSON.parse('${{ steps.release_action_plan.outputs.paths_released }}');
+          console.log("pathsReleased",pathsReleased);
+          
+          let includeArray = pathsReleased.map(path => {
+            const tag_name = allOutputs[`${path}--tag_name`];
+            return { path, tag_name };
+          });
+
+          core.setOutput('matrix', JSON.stringify({ include: includeArray }));
+      
+  release-matrix:
+    runs-on: ubuntu-latest
+    needs: dev-pr-merge
+    permissions: 
+      contents: read
+      packages: write
+    if: needs.dev-pr-merge.outputs.release_created == 'true'
+    strategy:
+      matrix: ${{ fromJson(needs.dev-pr-merge.outputs.matrix) }}
+    steps:
+      - name: Checkout our repository
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.4.0
+ 
+      - name: Install yq
+        run: |  
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+          sudo chmod +x /usr/bin/yq
+
+      - name: Get chart name and version
+        id: chart_info
+        run: |
+          chart_name=$(yq e '.name' ${{ matrix.path }}/Chart.yaml)
+          chart_version=$(yq e '.version' ${{ matrix.path }}/Chart.yaml)
+          echo "::set-output name=chart_name::$chart_name"
+          echo "::set-output name=chart_version::$chart_version"
+          IFS='/' read -r -a path_array <<< "${{ matrix.path }}"
+          third_element=${path_array[2]}  # Arrays are zero-indexed, so [2] is the third element
+          echo "third_element=${third_element}" >> $GITHUB_OUTPUT
+        
+
+      - name: Read JSON Config
+        id: read_json
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const fs = require('fs');
+            const appPath = '${{ steps.chart_info.outputs.third_element }}';
+            const appName = appPath.split('/').pop(); // Extracts the last segment of the path
+            const config = JSON.parse(fs.readFileSync('.github/github-action-config.json', 'utf8'));
+            const appConfig = config[appName]; // Access the app-specific configuration
+            core.setOutput('config', appConfig);
+            core.setOutput('upStreamChartName', appConfig.upStreamChartName);
+
+      - name: Add dependencies
+        run: |
+          configJson='${{ steps.read_json.outputs.config }}'
+          echo "Config JSON: $configJson"
+          echo "$configJson" | jq '.helmDependencies'
+          echo "$configJson" | jq -r '.helmDependencies[]? | "\(.name) \(.url)"' | while read -r name url; do
+            echo "Adding Helm repo: $name ($url)"
+            helm repo add "$name" "$url"
+          done
+
+
+      - name: Helm | Login to GHCR
+        run: echo ${{ secrets.GITHUB_TOKEN }} | helm registry login -u ${{ github.actor }} --password-stdin ghcr.io
+        
+  
+      - name: Helm | Package Helm Chart
+        run: helm package ${{ matrix.path }} --version "${{ steps.chart_info.outputs.chart_version }}"
+        
+  
+      - name: Helm | Push Helm Chart to GHCR
+        run: helm push ${{ steps.chart_info.outputs.chart_name }}-${{ steps.chart_info.outputs.chart_version }}.tgz oci://ghcr.io/${{ github.repository }}
+        
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+  #TODO : include cosign signing with digest not just with image data.        
+      - name: Cosign | Sign image with a key
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${image}
+        env:
+          image: ghcr.io/${{ github.repository }}/${{ steps.chart_info.outputs.chart_name }}:${{ steps.chart_info.outputs.chart_version }}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}

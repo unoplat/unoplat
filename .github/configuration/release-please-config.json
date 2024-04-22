@@ -1,0 +1,8 @@
+{
+    "packages": {
+      "core/observability/unoplat-signoz/charts/signoz": {
+        "release-type": "helm",
+        "changelog-path": "CHANGELOG.md"
+      }
+    }
+  }
