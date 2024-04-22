@@ -67,6 +67,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull origin ${GITHUB_HEAD_REF}
+          git checkout ${GITHUB_HEAD_REF}
           readarray -t APP_PATHS_ARRAY < <(echo $MATRIX_JSON | jq -r '.app[]')
           for APP_PATH in "${APP_PATHS_ARRAY[@]}"; do
             echo "$APP_PATH"
