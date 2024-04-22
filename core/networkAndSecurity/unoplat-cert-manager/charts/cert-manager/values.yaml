@@ -254,7 +254,7 @@ extraEnv: []
 # ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 resources:
   requests:
-    cpu: 100m
+    cpu: 110m
     memory: 128Mi
   limits:
     cpu: 250m
