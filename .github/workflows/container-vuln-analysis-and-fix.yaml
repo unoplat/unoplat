@@ -95,7 +95,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${GITHUB_HEAD_REF}
+          ref: ${{ GITHUB.HEAD_REF }}
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
@@ -239,7 +239,8 @@ jobs:
       - name: Checkout our repository
         uses: actions/checkout@v4
         with:
-          ref: ${GITHUB_HEAD_REF}
+          ref: ${{ GITHUB.HEAD_REF }}
+          fetch-depth: 0
       - name: Use Matrix
         run: |
           echo "Processing entry with imageName: ${{ matrix.imageName }} and path: ${{ matrix.path }}"
