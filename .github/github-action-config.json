@@ -3,7 +3,6 @@
     "repositoryName": "unoplat-signoz",
     "upStreamChartRepositoryURL": "https://charts.signoz.io",
     "upStreamChartName": "signoz",
-    "name": "unoplat-signoz",
     "namespace": "unoplat-observability",
     "helmDependencies": [
       { "name": "clickhouse", "url": "https://signoz.github.io/charts" },
@@ -13,7 +12,14 @@
       { "name": "minio", "url": "https://charts.min.io" },
       { "name": "keycloak", "url": "https://charts.bitnami.com/bitnami" }
     ]
+  },
+  "unoplat-cert-manager" : {
+    "repositoryName": "unoplat-cert-manager",
+    "upStreamChartRepositoryURL": "https://charts.jetstack.io",
+    "upStreamChartName": "cert-manager",
+    "namespace": "unoplat-network-security"
   }
+
 
 
   }
