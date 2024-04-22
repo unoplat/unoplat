@@ -13,6 +13,9 @@ Launch SAAS exponentially faster and bettery through IAC(Infrastructure as a cod
 
 [DevSecOps](https://github.com/unoplat/unoplat/blob/develop/.github/devSecOps.md)
 
+### End Goal for Distributed Generic DevSecOps:
+SLSA 3
+
 ## IAC through Gitops (current progress)
 
 Pulumi and github action based Intuitve IAC coming soon! Check Roadmap
