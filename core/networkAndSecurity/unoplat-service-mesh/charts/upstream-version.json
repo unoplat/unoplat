@@ -1,0 +1,4 @@
+{
+    "linkerd-crds" : "1.8.0",
+    "linkerd-control-pane" : "1.16.3"
+}
