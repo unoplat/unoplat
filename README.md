@@ -1,6 +1,3 @@
-# unoplat
-Mono Repo based for Core PAAS Layer of Unoplat
-
 # The Problem
 https://github.com/unoplat
 
@@ -75,5 +72,46 @@ Pulumi and github action based Intuitve IAC coming soon! Check Roadmap
 
 # Contribution Guidelines
 
+Coming Soon
 
 # Unoplat User Workflow
+# Detailed User Workflow Documentation for Unoplat
+
+## Introduction
+This guide details the user workflow on Unoplat, demonstrating step-by-step interactions from initial onboarding to feature deployment. Unoplat provides a streamlined, secure, and efficient pathway for deploying cloud-native applications using Kubernetes and GitOps principles.
+
+## User Workflow Overview
+The workflow on Unoplat is designed to guide users through a series of intuitive steps, ensuring a smooth transition from setup to full-scale operation.
+
+### Stage 1: Onboarding
+- **Cloud Kubernetes Cluster Onboarding**: Users begin their journey by onboarding onto a cloud Kubernetes cluster, preparing the environment for deploying modern applications.
+- **GitHub Organization Registration**: Subsequently, users register their GitHub organization to integrate their existing workflows and repositories with Unoplat.
+
+### Stage 2: Configuration
+- **Secrets Management**:
+  - **Creating Secrets**: Essential secrets such as certificates, private keys for Cosign, and `kubeconfig` files are created within the GitHub organization. This step ensures that all communications and operations are secured and authenticated.
+- **Repository Setup**:
+  - **Cloning the Core Repository**: Users clone the Unoplat core repository to their local environment to start the setup process.
+  - **Installing Unoplat PaaS**: The Platform as a Service (PaaS) component is installed on the Kubernetes cluster through a GitOps-driven approach. This method leverages version control to automate deployment and updates. This will ensure all compulsory core components of unoplat are installed/updated seamlessly.
+
+### Stage 3: Operation
+- **Application Deployment**:
+  - **Template Selection**: Users select from a variety of predefined Unoplat application templates. These templates are designed to cover diverse operational needs and feature sets.
+  - **Feature Deployment Using TDAD**:
+    - **TDAD Approach**: The Template Driven Application Development (TDAD) approach is employed to deploy features efficiently. This approach facilitates rapid application development and deployment by using customizable templates that can be tailored to specific business requirements.
+
+
+```mermaid
+journey
+    title User Journey on Unoplat
+    section Onboarding
+      Cloud Kubernetes Cluster Onboarding: 5: User
+      GitHub Organization Registration: 5: User
+    section Configuration
+      Creating Secrets: 4: User
+      Cloning the Core Repository: 4: User
+      Installing Unoplat PaaS: 3: User
+    section Operation
+      Template Selection: 5: User
+      Feature Deployment Using TDAD: 5: User
+```
