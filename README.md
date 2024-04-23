@@ -58,11 +58,10 @@ Look for TODO/IN Progress columns.
 
 ## Application Frameworks
 - **TDAP (Template Driven Application Development)**
-  - **BPMN Framework**: Framework for building and visualizing business processes. [BPMN](https://bpmn.io/)
-- **Serverless Framework**: Build applications on AWS Lambda, Azure Functions, Google Cloud Functions, and more. [Serverless](https://www.serverless.com/)
-- **KNative**: Kubernetes-based platform to build, deploy, and manage modern serverless workloads. [KNative](https://knative.dev/)
-- **Microservice Framework - Quarkus**: Supersonic Subatomic Java. [Quarkus](https://quarkus.io/)
-- **Streaming/Batch Framework - Apache Flink**: Stateful computations over data streams. [Apache Flink](https://flink.apache.org/)
+  - **BPMN Framework**: Framework for building and visualizing business processes. Application framework under experimentation - temporal [BPMN](https://bpmn.io/)
+  - **KNative**: Kubernetes-based platform to build, deploy, and manage modern serverless workloads. [KNative](https://knative.dev/)
+  - **Microservice Framework - Quarkus**: Supersonic Subatomic Java. [Quarkus](https://quarkus.io/)
+  - **Streaming/Batch Framework - Apache Flink**: Stateful computations over data streams. [Apache Flink](https://flink.apache.org/)
 
 ## Documentation & Diagrams
 - **Mermaid**: Generation of diagram and flowchart from text in a similar manner as markdown. [Mermaid](https://mermaid-js.github.io/mermaid/)
