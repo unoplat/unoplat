@@ -10,7 +10,7 @@ Launch SAAS exponentially faster and better through  vetted and tested multi lay
 
 [DevSecOps](https://github.com/unoplat/unoplat/blob/develop/.github/devSecOps.md)
 
-### End Goal for Distributed Generic DevSecOps:
+### End Security Goal for Distributed Generic DevSecOps:
 SLSA 3
 
 ## IAC through Gitops (current progress)
