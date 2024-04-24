@@ -49,6 +49,7 @@ Look for TODO/IN Progress columns.
 - **Linkerd**: Ultralight service mesh for Kubernetes. Provides runtime debugging, observability, reliability, and security without requiring configuration. [Linkerd](https://linkerd.io/)
 - **Cert Manager**: Automatically manage and renew SSL/TLS certificates in Kubernetes. [Cert Manager](https://cert-manager.io/)
 - **SuperTokens**: Open-source alternative to Auth0, Firebase Auth and others. Handles user authentication and authorization. [SuperTokens](https://supertokens.io/)
+- **LetsEncrypt** : Lets encrypt certificate 
 
 ## Fault Tolerance
 - **Velero**: Backup and restore, disaster recovery, Kubernetes migrations. [Velero](https://velero.io/)
@@ -71,7 +72,7 @@ Look for TODO/IN Progress columns.
 
 # Contribution Guidelines
 
-Coming Soon
+Coming Soon 
 
 # Unoplat User Workflow
 # Detailed User Workflow Documentation for Unoplat
