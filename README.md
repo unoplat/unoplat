@@ -2,7 +2,7 @@
 https://github.com/unoplat
 
 # The Solution
-Launch SAAS exponentially faster and better through  vetted and tested multi layered approach consisting of IAC(Infrastructure as a code), PAAS(platform as a service) and TBAD (Template based application Development).
+Launch SAAS exponentially faster and better through  vetted and tested multi layered approach consisting of IAC(Infrastructure as a code), PAAS(platform as a service) and TBAD (Template based application Development) all integrated with cross-cutting concerns taken care of.
 
 # Current Progress
 
