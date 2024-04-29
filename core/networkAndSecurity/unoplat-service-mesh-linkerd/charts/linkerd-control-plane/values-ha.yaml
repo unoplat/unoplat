@@ -5,6 +5,12 @@
 # -- Create PodDisruptionBudget resources for each control plane workload
 enablePodDisruptionBudget: true
 
+controller:
+  # -- sets pod disruption budget parameter for all deployments
+  podDisruptionBudget:
+    # -- Maximum number of pods that can be unavailable during disruption
+    maxUnavailable: 1
+
 # -- Specify a deployment strategy for each control plane workload
 deploymentStrategy:
   rollingUpdate:
@@ -14,7 +20,7 @@ deploymentStrategy:
 # -- add PodAntiAffinity to each control plane workload
 enablePodAntiAffinity: true
 
-# nodeAffinity: 
+# nodeAffinity:
 
 # proxy configuration
 proxy:
@@ -52,9 +58,6 @@ webhookFailurePolicy: Fail
 
 # service profile validator configuration
 spValidatorResources: *controller_resources
-
-# policy controller configuration
-policyControllerResources: *controller_resources
 
 # flag for linkerd check
 highAvailability: true

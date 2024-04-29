@@ -1,7 +1,9 @@
 # unoplat-service-mesh-linkerd
 Linkerd for unoplat
 
-# installation
+# Helm Details
+
+helm repo add linkerd-edge https://helm.linkerd.io/edge
 
 
 ## Linkerd Cli Installation

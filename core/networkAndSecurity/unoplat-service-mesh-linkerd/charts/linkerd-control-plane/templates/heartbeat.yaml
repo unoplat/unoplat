@@ -54,11 +54,17 @@ spec:
           restartPolicy: Never
           containers:
           - name: heartbeat
-            image: {{.Values.controllerImage}}:{{.Values.controllerImageVersion | default .Values.linkerdVersion}}
+            image: "{{ template "image" (tuple .Values.controllerImage $.Chart.AppVersion) }}"
             imagePullPolicy: {{.Values.imagePullPolicy}}
             env:
             - name: LINKERD_DISABLED
               value: "the heartbeat controller does not use the proxy"
+            {{- with (.Values.heartbeat).additionalEnv }}
+            {{- toYaml . | nindent 12 -}}
+            {{- end }}
+            {{- with (.Values.heartbeat).experimentalEnv }}
+            {{- toYaml . | nindent 12 -}}
+            {{- end }}
             args:
             - "heartbeat"
             - "-controller-namespace={{.Release.Namespace}}"

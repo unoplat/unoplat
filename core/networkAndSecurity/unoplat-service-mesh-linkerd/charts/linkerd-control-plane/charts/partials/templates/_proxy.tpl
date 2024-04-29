@@ -1,4 +1,7 @@
 {{ define "partials.proxy" -}}
+{{ if and .Values.proxy.nativeSidecar .Values.proxy.waitBeforeExitSeconds }}
+{{ fail "proxy.nativeSidecar and waitBeforeExitSeconds cannot be used simultaneously" }}
+{{- end }}
 {{- $trustDomain := (.Values.identityTrustDomain | default .Values.clusterDomain) -}}
 env:
 - name: _pod_name
@@ -36,11 +39,18 @@ env:
 - name: LINKERD2_PROXY_POLICY_SVC_ADDR
   value: {{ternary "localhost.:8090" (printf "linkerd-policy.%s.svc.%s.:8090" .Release.Namespace .Values.clusterDomain) (eq (toString .Values.proxy.component) "linkerd-destination")}}
 - name: LINKERD2_PROXY_POLICY_WORKLOAD
-  value: "$(_pod_ns):$(_pod_name)"
+  value: |
+    {"ns":"$(_pod_ns)", "pod":"$(_pod_name)"}
 - name: LINKERD2_PROXY_INBOUND_DEFAULT_POLICY
   value: {{.Values.proxy.defaultInboundPolicy}}
 - name: LINKERD2_PROXY_POLICY_CLUSTER_NETWORKS
   value: {{.Values.clusterNetworks | quote}}
+- name: LINKERD2_PROXY_CONTROL_STREAM_INITIAL_TIMEOUT
+  value: {{((.Values.proxy.control).streams).initialTimeout | default "" | quote}}
+- name: LINKERD2_PROXY_CONTROL_STREAM_IDLE_TIMEOUT
+  value: {{((.Values.proxy.control).streams).idleTimeout | default "" | quote}}
+- name: LINKERD2_PROXY_CONTROL_STREAM_LIFETIME
+  value: {{((.Values.proxy.control).streams).lifetime | default "" | quote}}
 {{ if .Values.proxy.inboundConnectTimeout -}}
 - name: LINKERD2_PROXY_INBOUND_CONNECT_TIMEOUT
   value: {{.Values.proxy.inboundConnectTimeout | quote}}
@@ -94,6 +104,17 @@ env:
   value: 10000ms
 - name: LINKERD2_PROXY_OUTBOUND_CONNECT_KEEPALIVE
   value: 10000ms
+{{- /* Configure inbound and outbound parameters, e.g. for HTTP/2 servers. */}}
+{{ range $proxyK, $proxyV := (dict "inbound" .Values.proxy.inbound "outbound" .Values.proxy.outbound) -}}
+{{   range $scopeK, $scopeV := $proxyV -}}
+{{     range $protoK, $protoV := $scopeV -}}
+{{       range $paramK, $paramV := $protoV -}}
+- name: LINKERD2_PROXY_{{snakecase $proxyK | upper}}_{{snakecase $scopeK | upper}}_{{snakecase $protoK | upper}}_{{snakecase $paramK | upper}}
+  value: {{ quote $paramV }}
+{{       end -}}
+{{     end -}}
+{{   end -}}
+{{ end -}}
 {{ if .Values.proxy.opaquePorts -}}
 - name: LINKERD2_PROXY_INBOUND_PORTS_DISABLE_PROTOCOL_DETECTION
   value: {{.Values.proxy.opaquePorts | quote}}
@@ -150,13 +171,20 @@ be used in other contexts.
 - name: LINKERD2_PROXY_SHUTDOWN_GRACE_PERIOD
   value: {{.Values.proxy.shutdownGracePeriod | quote}}
 {{ end -}}
+{{ if .Values.proxy.additionalEnv -}}
+{{ toYaml .Values.proxy.additionalEnv }}
+{{ end -}}
+{{ if .Values.proxy.experimentalEnv -}}
+{{ toYaml .Values.proxy.experimentalEnv }}
+{{ end -}}
 image: {{.Values.proxy.image.name}}:{{.Values.proxy.image.version | default .Values.linkerdVersion}}
 imagePullPolicy: {{.Values.proxy.image.pullPolicy | default .Values.imagePullPolicy}}
 livenessProbe:
   httpGet:
     path: /live
     port: {{.Values.proxy.ports.admin}}
-  initialDelaySeconds: 10
+  initialDelaySeconds: {{.Values.proxy.livenessProbe.initialDelaySeconds }}
+  timeoutSeconds: {{.Values.proxy.livenessProbe.timeoutSeconds }}
 name: linkerd-proxy
 ports:
 - containerPort: {{.Values.proxy.ports.inbound}}
@@ -167,7 +195,17 @@ readinessProbe:
   httpGet:
     path: /ready
     port: {{.Values.proxy.ports.admin}}
-  initialDelaySeconds: 2
+  initialDelaySeconds: {{.Values.proxy.readinessProbe.initialDelaySeconds }}
+  timeoutSeconds: {{.Values.proxy.readinessProbe.timeoutSeconds }}
+{{- if and .Values.proxy.nativeSidecar .Values.proxy.await }}
+startupProbe:
+  httpGet:
+    path: /ready
+    port: {{.Values.proxy.ports.admin}}
+  initialDelaySeconds: {{.Values.proxy.startupProbe.initialDelaySeconds}}
+  periodSeconds: {{.Values.proxy.startupProbe.periodSeconds}}
+  failureThreshold: {{.Values.proxy.startupProbe.failureThreshold}}
+{{- end }}
 {{- if .Values.proxy.resources }}
 {{ include "partials.resources" .Values.proxy.resources }}
 {{- end }}
@@ -182,7 +220,7 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 terminationMessagePolicy: FallbackToLogsOnError
-{{- if or (.Values.proxy.await) (.Values.proxy.waitBeforeExitSeconds) }}
+{{- if and (not .Values.proxy.nativeSidecar) (or .Values.proxy.await .Values.proxy.waitBeforeExitSeconds) }}
 lifecycle:
 {{- if .Values.proxy.await }}
   postStart:
@@ -211,5 +249,8 @@ volumeMounts:
 - mountPath: {{.Values.proxy.saMountPath.mountPath}}
   name: {{.Values.proxy.saMountPath.name}}
   readOnly: {{.Values.proxy.saMountPath.readOnly}}
+{{- end -}}
+{{- if .Values.proxy.nativeSidecar }}
+restartPolicy: Always
 {{- end -}}
 {{- end }}
