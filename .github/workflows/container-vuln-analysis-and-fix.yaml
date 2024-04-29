@@ -29,17 +29,17 @@ jobs:
 
       - name: Prepare matrix for changed paths
         id: prepare-matrix
-        run: |
-          MATRIX_ARRAY=()
-          CHANGED_FILES=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | tr ' ' '\n' | grep 'core/' | awk -F"/" '{print $1"/"$2"/"$3}' | sort -u)
-          for FILE in $CHANGED_FILES; do
-            if [ -d "$FILE" ]; then
-              MATRIX_ARRAY+=("\"$FILE\"")
-            fi
-          done
-          MATRIX_JSON="{\"app\": [$(IFS=, ; echo "${MATRIX_ARRAY[*]}")]}"
-          echo "Matrix: $MATRIX_JSON"
-          echo "::set-output name=matrix::$MATRIX_JSON"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const changedFiles = `${{ steps.changed-files.outputs.all_changed_files }}`.split(' ');
+            const coreFiles = changedFiles.filter(path => path.startsWith('core/'));
+            const directories = coreFiles.map(path => path.split('/').slice(0, 3).join('/'));
+            const uniqueDirectories = [...new Set(directories)];
+            const matrix = { "app": uniqueDirectories };
+            core.setOutput('matrix', JSON.stringify(matrix));
+            console.log("Matrix: " + JSON.stringify(matrix));
+            
       - name: Set timestamp
         id: timestamp
         run: |
