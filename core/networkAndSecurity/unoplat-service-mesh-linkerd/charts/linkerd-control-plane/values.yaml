@@ -279,7 +279,7 @@ proxyInit:
       request: 100m
     memory:
       # -- Maximum amount of memory that the proxy-init container can use
-      limit: 20Mi
+      limit: 40Mi
       # -- Amount of memory that the proxy-init container requests
       request: 20Mi
     ephemeral-storage:
