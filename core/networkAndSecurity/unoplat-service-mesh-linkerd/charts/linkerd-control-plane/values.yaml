@@ -274,7 +274,7 @@ proxyInit:
   resources:
     cpu:
       # -- Maximum amount of CPU units that the proxy-init container can use
-      limit: 100m
+      limit: 150m
       # -- Amount of CPU units that the proxy-init container requests
       request: 100m
     memory:
