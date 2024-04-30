@@ -1,5 +1,6 @@
 {
     "core/observability/unoplat-signoz/charts/signoz": "0.43.0",
     "core/networkAndSecurity/unoplat-cert-manager/charts/cert-manager": "1.15.0",
-    "core/networkAndSecurity/unoplat-service-mesh-linkerd/charts/linkerd-control-plane": "24.5.0"
+    "core/networkAndSecurity/unoplat-service-mesh-linkerd/charts/linkerd-control-plane": "24.5.0",
+    "core/networkAndSecurity/unoplat-service-mesh-linkerd-crd/charts/linkerd-crds": "2024.4.5"
 }

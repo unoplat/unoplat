@@ -11,6 +11,10 @@
       "core/networkAndSecurity/unoplat-service-mesh-linkerd/charts/linkerd-control-plane" : {
         "release-type": "helm",
         "changelog-path": "CHANGELOG.md"
+      },
+      "core/networkAndSecurity/unoplat-service-mesh-linkerd-crd/charts/linkerd-crds" : {
+        "release-type": "helm",
+        "changelog-path": "CHANGELOG.md"
       }
 
     }

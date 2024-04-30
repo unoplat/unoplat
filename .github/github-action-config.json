@@ -27,6 +27,13 @@
     "upStreamChartName": "linkerd-control-plane",
     "upstream-version": "edge-24.4.5",
     "namespace": "unoplat-network-security"
+  },
+  "unoplat-service-mesh-linkerd-crd" : {
+    "repositoryName": "unoplat-service-mesh-linkerd-crd",
+    "upStreamChartRepositoryURL": "https://helm.linkerd.io/edge",
+    "upStreamChartName": "linkerd-crds",
+    "upstream-version": "2024.4.5",
+    "namespace": "unoplat-network-security"
   }
 
   }
