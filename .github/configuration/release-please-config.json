@@ -7,6 +7,10 @@
       "core/networkAndSecurity/unoplat-cert-manager/charts/cert-manager" : {
         "release-type": "helm",
         "changelog-path": "CHANGELOG.md"
+      },
+      "core/networkAndSecurity/unoplat-service-mesh/charts/linkerd-control-plane" : {
+        "release-type": "helm",
+        "changelog-path": "CHANGELOG.md"
       }
     }
   }
