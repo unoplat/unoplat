@@ -1,22 +1,22 @@
 apiVersion: v2
 appVersion: edge-24.4.5
 dependencies:
-- name: partials
-  repository: file://../partials
-  version: 0.1.0
-description: 'Linkerd gives you observability, reliability, and security for your
-  microservices — with no code change required. '
+  - name: partials
+    repository: file://../partials
+    version: 0.1.0
+description: 'Linkerd gives you observability, reliability, and security for
+  your microservices — with no code change required. '
 home: https://linkerd.io
 icon: https://linkerd.io/images/logo-only-200h.png
 keywords:
-- service-mesh
+  - service-mesh
 kubeVersion: '>=1.22.0-0'
 maintainers:
-- email: cncf-linkerd-dev@lists.cncf.io
-  name: Linkerd authors
-  url: https://linkerd.io/
+  - email: cncf-linkerd-dev@lists.cncf.io
+    name: Linkerd authors
+    url: https://linkerd.io/
 name: linkerd-control-plane
 sources:
-- https://github.com/linkerd/linkerd2/
+  - https://github.com/linkerd/linkerd2/
 type: application
-version: 2024.4.5
+version: 24.5.0
