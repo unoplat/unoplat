@@ -12,5 +12,6 @@
         "release-type": "helm",
         "changelog-path": "CHANGELOG.md"
       }
+
     }
   }
