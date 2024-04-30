@@ -4,6 +4,7 @@
     "upStreamChartRepositoryURL": "https://charts.signoz.io",
     "upStreamChartName": "signoz",
     "namespace": "unoplat-observability",
+    "upstream-version": "0.39.0",
     "helmDependencies": [
       { "name": "clickhouse", "url": "https://signoz.github.io/charts" },
       { "name": "k8s-infra", "url": "https://signoz.github.io/charts" },
@@ -17,9 +18,15 @@
     "repositoryName": "unoplat-cert-manager",
     "upStreamChartRepositoryURL": "https://charts.jetstack.io",
     "upStreamChartName": "cert-manager",
+    "upstream-version": "v1.14.4",
+    "namespace": "unoplat-network-security"
+  },
+  "unoplat-service-mesh-linkerd" : {
+    "repositoryName": "unoplat-service-mesh-linkerd",
+    "upStreamChartRepositoryURL": "https://helm.linkerd.io/edge",
+    "upStreamChartName": "linkerd-control-plane",
+    "upstream-version": "edge-24.4.5",
     "namespace": "unoplat-network-security"
   }
-
-
 
   }
