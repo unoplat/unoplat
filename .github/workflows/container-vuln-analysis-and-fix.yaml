@@ -19,11 +19,10 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ GITHUB.HEAD_REF }}
+
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v43
-        with:
-          since_last_remote_commit: true     
+        uses: tj-actions/changed-files@v43  
 
       - name: Install jq (JSON Processor)
         run: sudo apt-get install jq
