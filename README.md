@@ -39,6 +39,9 @@ Look for TODO/IN Progress columns.
   - Kubernetes clusters or resources
 - **Copaceptic**: Automatically patch container images without depending on upstream sources. [Learn more](https://example.com/copaceptic)
 - **Cosign**: Tool for signing containers to ensure the integrity of data within the supply chain. [Cosign by Sigstore](https://github.com/sigstore/cosign)
+
+### Infrastructure As Code
+
 - **Pulumi**: Modern Infrastructure as Code using real languages. [Pulumi](https://www.pulumi.com/)
 
 ## Observability
@@ -54,15 +57,6 @@ Look for TODO/IN Progress columns.
 ## Fault Tolerance
 - **Velero**: Backup and restore, disaster recovery, Kubernetes migrations. [Velero](https://velero.io/)
 
-## Infrastructure as Code (IAC)
-- **Core Unoplat IAC**: Utilize GitOps principles for deployment across environments (development, staging, production) using Pulumi in a Golang SDK. [Pulumi with Golang](https://www.pulumi.com/docs/intro/languages/go/)
-
-## Application Frameworks
-- **TDAP (Template Driven Application Development)**
-  - **BPMN Framework**: Framework for building and visualizing business processes. Application framework under experimentation - temporal [BPMN](https://bpmn.io/)
-  - **KNative**: Kubernetes-based platform to build, deploy, and manage modern serverless workloads. [KNative](https://knative.dev/)
-  - **Microservice Framework - Quarkus**: Supersonic Subatomic Java. [Quarkus](https://quarkus.io/)
-  - **Streaming/Batch Framework - Apache Flink**: Stateful computations over data streams. [Apache Flink](https://flink.apache.org/)
 
 ## Documentation & Diagrams
 - **Mermaid**: Generation of diagram and flowchart from text in a similar manner as markdown. [Mermaid](https://mermaid-js.github.io/mermaid/)
