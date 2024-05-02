@@ -5,6 +5,4 @@
    
 MVP   
    
-[COSS](coss.md)    
-   
-Unoplat Vs Competitors (kubefirst vs walrus vs otomi)   
+ 
